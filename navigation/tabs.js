@@ -6,10 +6,13 @@ import { icons, COLORS } from "../constants";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../screens/Home";
 import Cocktails from "../screens/Cocktails";
+import Favourites from "../screens/Favourites";
+import { favouritesExport } from "../screens/Cocktails";
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs = ({ cocktailsList }) => {
+  const [favourites, setFavourites] = React.useState([]);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -17,14 +20,32 @@ const Tabs = () => {
         tabBarShowLabel: false,
         tabBarStyle: {
           borderTopWidth: 0,
-          backgroundColor: COLORS.white,
+          backgroundColor: COLORS.primary,
           elevation: 0,
         },
       }}
+      initialRouteName={"Home"}
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={icons.home}
+              resizeMode="contain"
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: focused ? COLORS.red2 : COLORS.red3,
+              }}
+            />
+          ),
+        }}
+      >
+        {props => <Home {...props} cocktailsList={cocktailsList} />}
+      </Tab.Screen>
+      <Tab.Screen
+        name="Cocktails"
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -38,11 +59,11 @@ const Tabs = () => {
             />
           ),
         }}
-      />
-
-      <Tab.Screen
-        name="Like"
-        component={Cocktails}
+      >
+        {props => <Cocktails {...props} cocktailsList={cocktailsList} />}
+      </Tab.Screen>
+      {/* <Tab.Screen
+        name="Favourites"
         options={{
           tabBarIcon: ({ focused }) => (
             <Image
@@ -56,7 +77,9 @@ const Tabs = () => {
             />
           ),
         }}
-      />
+      >
+        {props => <Favourites {...props} />}
+      </Tab.Screen>
       <Tab.Screen
         name="User"
         component={Home}
@@ -73,7 +96,7 @@ const Tabs = () => {
             />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

@@ -12,10 +12,13 @@ import {
   Image,
   FlatList,
 } from "react-native";
-
+import Cocktails from "./Cocktails";
 import { icons, SIZES, COLORS, FONTS } from "../constants";
+import Tabs from "../navigation/tabs";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Home({ navigation }) {
+export default function Home() {
+  const navigation = useNavigation();
   const renderHeader = () => {
     return (
       <View
@@ -27,7 +30,7 @@ export default function Home({ navigation }) {
       >
         <View
           style={{
-            backgroundColor: COLORS.white,
+            backgroundColor: COLORS.primary,
             height: SIZES.height * 0.15,
             width: SIZES.width * 0.45,
             borderBottomLeftRadius: SIZES.radius,
@@ -49,7 +52,7 @@ export default function Home({ navigation }) {
             style={{
               ...FONTS.h1,
               textAlign: "center",
-              color: COLORS.secondary,
+              color: COLORS.white,
             }}
           >
             HUB
@@ -70,17 +73,16 @@ export default function Home({ navigation }) {
       >
         <Image
           source={icons.cocktail}
-          resizeMethod="contain"
           style={{
-            marginTop: 20,
+            marginTop: 150,
             marginRight: 35,
             width: 300,
             height: 300,
           }}
         />
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
-            backgroundColor: "white",
+            backgroundColor: COLORS.primary,
             width: SIZES.width * 0.5,
             height: 50,
             marginTop: 100,
@@ -88,19 +90,20 @@ export default function Home({ navigation }) {
             justifyContent: "center",
             alignItems: "center",
           }}
+          onPress={() => navigation.navigate("Cocktails")}
         >
           <Text
             style={{
               ...FONTS.h3,
-              color: COLORS.secondary,
+              color: COLORS.white,
             }}
           >
             COCKTAILS LIST
           </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity
           style={{
-            backgroundColor: "white",
+            backgroundColor: COLORS.primary,
             width: SIZES.width * 0.5,
             height: 50,
             marginTop: 20,
@@ -117,7 +120,7 @@ export default function Home({ navigation }) {
           >
             ALCOHOL TEST
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   };
@@ -134,6 +137,6 @@ const styles = StyleSheet.create({
   container: {
     height: SIZES.height,
     width: SIZES.width,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.white,
   },
 });

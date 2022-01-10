@@ -12,35 +12,18 @@ import {
 } from "react-native";
 import { Input } from "react-native-elements";
 import { COLORS, icons, images, SIZES, FONTS } from "../constants";
-import { useNavigation } from "@react-navigation/native";
 
-const Cocktails = ({ cocktailsList, route }) => {
-  const navigation = useNavigation();
-  const fav = route?.params?.favourite.favourite;
-  const [data, setData] = React.useState(cocktailsList.drinks);
-  const [value, onChangeText] = React.useState("");
-  const [isLoading, setLoading] = React.useState(true);
+const Favourites = ({ navigation, cocktailsList }) => {
   const [favourites, setFavourites] = React.useState([]);
-  React.useEffect(() => {
-    if (fav === null || favourites.filter(f => f === fav).length > 0) return;
-    else {
-      const copy = favourites;
-      copy.push(fav);
-      setFavourites(copy);
-    }
-  }, [favourites]);
+  const [value, onChangeText] = React.useState("Cerca un ristorante");
+  const [isLoading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (value === "") {
+    if (value === "Cerca un ristorante") {
       setLoading(false);
       return;
     }
-    fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${value}`)
-      .then(response => response.json())
-      .then(json => setData(json.drinks))
-      .catch(error => console.error(error))
-      .finally(() => setLoading(false));
-  }, [value]);
+  });
 
   function renderSearchTab() {
     return (
@@ -56,7 +39,7 @@ const Cocktails = ({ cocktailsList, route }) => {
           onChangeText={text => {
             onChangeText(text);
           }}
-          placeholder="Cerca un cocktail"
+          placeholder="Cerca tra i preferiti"
         />
       </View>
     );
@@ -75,7 +58,7 @@ const Cocktails = ({ cocktailsList, route }) => {
             borderRadius: SIZES.radius,
           }}
           onPress={() => {
-            /* 1. Navigate to the InfoCocktail route with params */
+            /* 1. Navigate to the Details route with params */
             navigation.navigate("InfoCocktail", {
               item: { item },
             });
@@ -196,7 +179,7 @@ const Cocktails = ({ cocktailsList, route }) => {
     };
     return (
       <FlatList
-        data={data}
+        data={favourites}
         vertical
         showsHorizontalScrollIndicator={false}
         keyExtractor={item => `${item.idDrink}`}
@@ -234,4 +217,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Cocktails;
+export default Favourites;
